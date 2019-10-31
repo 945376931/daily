@@ -76,8 +76,8 @@ public class DailyController {
                 e.printStackTrace();
             }
         }
-        System.out.println("今天收到的工作日报" + judgeEmailArray); //也就是今天别人发送的工作日报
-//        map.put("begin_date", df.format(new Date()));
+//        System.out.println("今天收到的工作日报" + judgeEmailArray); //也就是今天别人发送的工作日报
+////        map.put("begin_date", df.format(new Date()));
         map.put("begin_date", df.format(lastday));
         map.put("end_date", df.format(new Date()));
         map.put("mailtype", 1);  //发送
@@ -85,8 +85,8 @@ public class DailyController {
         String sendResult = restTemplete.postForObject(emailUrl,map,String.class);  //查询到发送的邮件
         JSONObject jsonSendResult = JSONObject.parseObject(sendResult);
         JSONArray  jsonSendArray=jsonSendResult.getJSONArray("list");
-        System.out.println("以下为今日已经回复的任务");
-        System.out.println(jsonSendArray);
+//        System.out.println("以下为今日已经回复的任务");
+//        System.out.println(jsonSendArray);
 
         /**----------------------------------------------建立连接------------------------------------------------------------------ **/
 //        在这去打开连接，需要时去解析，这样第一部可以先减少几次连接
@@ -126,21 +126,21 @@ public class DailyController {
                 String substr= getJsonObject.getString("subject");
                 String s1="";
                 String s2="";
-//                try {
-//                    returnEmail=POP3ReceiveMailTest.getContentBysubject(messages,substr);
-//                   s1= returnEmail.getContent();
-//                   int index = s1.indexOf("<");
-//                   s2= s1.substring(0,index);
-//                    sendController.send("Re:"+returnEmail.getSubject(),"收到\n"+"\n"+"\n"+"\n"+
-//                                    "------------------ Original ------------------\n"+
-//                                    "From:"+ getJsonObject.getString("sender")+"\n"+
-//                                    "Date:"+ returnEmail.getSendTime()+"\n"+
-//                                    "To:"+returnEmail.getToUsernames()+"\n"+
-//                            "Subject:"+returnEmail.getSubject()+"\n"+
-//                            "\n" + s2,getJsonObject.getString("sender"));
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
+                try {
+                    returnEmail=POP3ReceiveMailTest.getContentBysubject(messages,substr);
+                   s1= returnEmail.getContent();
+                   int index = s1.indexOf("<");
+                   s2= s1.substring(0,index);
+                    sendController.send("Re:"+returnEmail.getSubject(),"收到\n"+"\n"+"\n"+"\n"+
+                                    "------------------ Original ------------------\n"+
+                                    "From:"+ getJsonObject.getString("sender")+"\n"+
+                                    "Date:"+ returnEmail.getSendTime()+"\n"+
+                                    "To:"+returnEmail.getToUsernames()+"\n"+
+                            "Subject:"+returnEmail.getSubject()+"\n"+
+                            "\n" + s2,getJsonObject.getString("sender"));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
         folder.close(true);

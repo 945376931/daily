@@ -46,31 +46,31 @@ public class POP3ReceiveMailTest {
 //	}
 
 	/** 建立连接*/
-   public  static  Message[] setLink() throws Exception {
-	   Properties props = new Properties();
-	   props.setProperty("mail.pop3.host", "pop.exmail.qq.com"); // 按需要更改
-	   props.setProperty("mail.pop3.port", "995");
-	   // SSL安全连接参数
-	   props.setProperty("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
-	   props.setProperty("mail.pop3.socketFactory.fallback", "true");
-	   props.setProperty("mail.pop3.socketFactory.port", "995");
-	   // 创建Session实例对象
-	   Session session = Session.getInstance(props);
-	   Store store = session.getStore("pop3");
-	   store.connect("zhangzhiyuan@bz.cn", "BaiZhu7958");
-	   Folder folder = store.getFolder("INBOX");//获得收件箱
-	   folder.open(Folder.READ_WRITE);	//打开收件箱
-	   //解析邮件
-	   Message[] messages = folder.getMessages();
-	   folder.close(true);
-	   store.close();
-	   return  messages;
-   }
+//   public  static  Message[] setLink() throws Exception {
+//	   Properties props = new Properties();
+//	   props.setProperty("mail.pop3.host", "pop.exmail.qq.com"); // 按需要更改
+//	   props.setProperty("mail.pop3.port", "995");
+//	   // SSL安全连接参数
+//	   props.setProperty("mail.pop3.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+//	   props.setProperty("mail.pop3.socketFactory.fallback", "true");
+//	   props.setProperty("mail.pop3.socketFactory.port", "995");
+//	   // 创建Session实例对象
+//	   Session session = Session.getInstance(props);
+//	   Store store = session.getStore("pop3");
+//	   store.connect("zhangzhiyuan@bz.cn", "BaiZhu7958");
+//	   Folder folder = store.getFolder("INBOX");//获得收件箱
+//	   folder.open(Folder.READ_WRITE);	//打开收件箱
+//	   //解析邮件
+//	   Message[] messages = folder.getMessages();
+//	   folder.close(true);
+//	   store.close();
+//	   return  messages;
+//   }
 
 
-//	/**
-//	 * 接收邮件
-//	 */
+	/**
+	 * 接收邮件
+	 */
 //	@ResponseBody
 //	@RequestMapping("/test")
 //	public static Email receive(String str) throws Exception {
@@ -112,26 +112,22 @@ public class POP3ReceiveMailTest {
 //		resultmail=getContentBysubject(messages,str);//
 //		//释放资源
 //		folder.close(true);
-//		store.close();
-//		return resultmail ;
+//		store.close();return resultmail ;
+//
 //	}
-
 	/**将已经判断好的未回复邮件的主题去作为参数 去从解析的邮件中去查正文**/
 	public  static Email  getContentBysubject(Message[] messages, String str) throws MessagingException, IOException {
         Email resultmail2 = new Email();
-		System.out.println("------------------------------------------------------");
-		System.out.println("---------进入到通过为回复主题进行对比的方法");
+		System.out.println("自动回复中...");
 		StringBuffer content = new StringBuffer(30);
-
 		if(messages == null|| messages.length < 1){
 			throw new MessagingException("未找到对应的邮件");
 		}
-		for (int n=1130;n<messages.length;n++) {
+		for (int n=1160;n<messages.length;n++){
 				MimeMessage msg = (MimeMessage) messages[n];
 			if (getSubject(msg).equals(str)){   //str为传过来的未回复的邮件标题 这边做出判断
 				getMailTextContent(msg, content);
 				System.out.println("未回复的邮件正文：" + (content.length() > 100 ? content.substring(0, 100) + "..." : content));
-
 				try {
 					String s1=String.valueOf(content);
 					resultmail2.setContent(s1);//正文
@@ -146,10 +142,7 @@ public class POP3ReceiveMailTest {
 				catch (Exception e){
 					e.printStackTrace();
 				}
-
 				/** ----------------**/
-
-
 			}
 		}
 		return resultmail2;
@@ -200,7 +193,6 @@ public class POP3ReceiveMailTest {
 //
 //		}
 //	}
-
 	/**
 	 * 获得邮件主题
 	 * @param msg 邮件内容
@@ -217,23 +209,22 @@ public class POP3ReceiveMailTest {
 	 * @throws MessagingException
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String getFrom(MimeMessage msg) throws MessagingException, UnsupportedEncodingException {
-		String from = "";
-		Address[] froms = msg.getFrom();
-		if (froms.length < 1)
-			throw new MessagingException("没有发件人!");
-
-		InternetAddress address = (InternetAddress) froms[0];
-		String person = address.getPersonal();
-		if (person != null) {
-			person = MimeUtility.decodeText(person) + " ";
-		} else {
-			person = "";
-		}
-		from = person + "<" + address.getAddress() + ">";
-		return from;
-	}
-
+//	public static String getFrom(MimeMessage msg) throws MessagingException, UnsupportedEncodingException {
+//		String from = "";
+//		Address[] froms = msg.getFrom();
+//		if (froms.length < 1)
+//			throw new MessagingException("没有发件人!");
+//
+//		InternetAddress address = (InternetAddress) froms[0];
+//		String person = address.getPersonal();
+//		if (person != null) {
+//			person = MimeUtility.decodeText(person) + " ";
+//		} else {
+//			person = "";
+//		}
+//		from = person + "<" + address.getAddress() + ">";
+//		return from;
+//	}
 	/**
 	 * 根据收件人类型，获取邮件收件人、抄送和密送地址。如果收件人类型为空，则获得所有的收件人
 	 * <p>Message.RecipientType.TO  收件人</p>
