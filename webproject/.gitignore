@@ -6,10 +6,7 @@ target/
 
 ### STS ###
 .apt_generated
-.classpath
 .factorypath
-.project
-.settings
 .springBeans
 .sts4-cache
 
@@ -25,7 +22,16 @@ target/
 /dist/
 /nbdist/
 /.nb-gradle/
-build/
 
 ### VS Code ###
 .vscode/
+
+/bin/
+/target/
+.setting/
+.settings/*
+build/*
+.project
+.classpath
+.gitignore
+src/test/*

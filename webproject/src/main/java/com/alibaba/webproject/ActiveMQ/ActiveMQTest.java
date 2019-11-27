@@ -60,6 +60,9 @@ public class ActiveMQTest {
             }
         });
 
+
+
+
         consumer.setMessageListener(message -> {
             //只要收到了topic，就会执行该方法
             TextMessage textMessage=(TextMessage) message;
